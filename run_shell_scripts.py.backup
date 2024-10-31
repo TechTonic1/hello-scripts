@@ -1,0 +1,41 @@
+import subprocess
+import os
+
+# Function to execute a shell script
+def run_shell_script(script_path):
+    if os.path.isfile(script_path) and os.access(script_path, os.X_OK):
+        try:
+            # Run the shell script
+            result = subprocess.run([script_path], capture_output=True, text=True)
+            print(f"Output of {script_path}:")
+            print(result.stdout)
+            print(f"Errors (if any) from {script_path}:")
+            print(result.stderr)
+        except Exception as e:
+            print(f"Error running {script_path}: {str(e)}")
+    else:
+        print(f"Script {script_path} not found or is not executable.")
+
+# Define the path where scripts are stored
+scripts_path = "/Users/frankwade/scripts"
+
+# Add your shell script names here
+shell_scripts = [
+    f"{scripts_path}/timescript.sh",
+    f"{scripts_path}/update_permissions.sh",
+    # Add more scripts here if needed
+]
+
+# Main execution loop
+def main():
+    print("Starting to run shell scripts...")
+    
+    for script in shell_scripts:
+        print(f"\nRunning: {script}")
+        run_shell_script(script)
+    
+    print("\nAll scripts completed.")
+
+if __name__ == "__main__":
+    main()
+
